@@ -1,0 +1,10 @@
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.todo-form__inp {
+  color: black;
+  font-size: 26px;
+  resize: none;
+}

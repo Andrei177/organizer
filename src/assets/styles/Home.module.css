@@ -1,0 +1,11 @@
+.home {
+  animation: show-page 1s ease;
+}
+@keyframes show-page {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

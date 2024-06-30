@@ -62,7 +62,7 @@ const TodoForm: React.FC<IPropsTodoForm> = ({setShowModal}) => {
         </select>
 
         <Button onClick={() => setShowModal(false)}>Отменить</Button>
-        <Button onClick={addTodoInStore}>Сохранить</Button>
+        <Button onClick={addTodoInStore} disabled={!todo.name}>Сохранить</Button>
         <input type="checkbox" checked={todo.status} onChange={(e) => onSetStatus(e.target.checked)}/><span>Завершено</span>
     </div>
   )

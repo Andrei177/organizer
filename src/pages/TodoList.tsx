@@ -39,8 +39,7 @@ const TodoList: React.FC = () => {
                   description={todo.description} 
                   event={todo.event} 
                   status={todo.status} 
-                />
-                )
+                />)
               )
             }
           </div>

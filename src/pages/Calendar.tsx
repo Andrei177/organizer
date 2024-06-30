@@ -4,7 +4,7 @@ import styles from '../assets/styles/Calendar.module.css'
 const Calendar: React.FC = () => {
   return (
     <div className={styles['calendar']}>
-      Календарь
+      <h1 className={styles['calendar-title']}>Календарь</h1>
     </div>
   )
 }

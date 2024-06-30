@@ -6,6 +6,7 @@ import styles from '../assets/styles/Home.module.css'
 const Home: React.FC = () => {
   return (
     <div className={styles['home']}>
+      <h1 className={styles['home-title']}>Главная</h1>
       <CalendarWidget/>
       <TodoListWidget/>
     </div>

@@ -9,9 +9,13 @@
     opacity: 1;
   }
 }
+.lk-title{
+  text-align: center;
+}
 .user{
   display: flex;
-  gap: 25px;
+  justify-content: space-around;
+  padding: 10px;
 }
 .user-img{
   height: 420px;
@@ -32,12 +36,12 @@
   width: 100%;
   height: auto;
 }
-.user-info{
+.user-info-fields{
   display: flex;
   flex-direction: column;
-  gap: 10px;
   justify-content: space-around;
+  height: 100%;
 }
-.chart{
+.user-info-title, .user-chart-title{
   text-align: center;
 }

@@ -1,8 +1,8 @@
-.top-panel{
-    text-align: center;
-    cursor: pointer;
-    border-bottom: 3px solid green;
-    background-color: rgb(233, 241, 234);
-    color: rgb(79, 25, 25);
-    font-style: italic;
-  }
+.top-panel {
+  cursor: pointer;
+  border-bottom: 3px solid green;
+  background-color: rgb(233, 241, 234);
+  color: rgb(79, 25, 25);
+  font-style: italic;
+  padding-left: 30px;
+}

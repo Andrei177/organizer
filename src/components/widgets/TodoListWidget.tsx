@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
 const TodoListWidgets = () => {
-  const [x, setX] = useState(240);
-  const [y, setY] = useState(60);
+  const [x, setX] = useState<number | string>("30%");
+  const [y, setY] = useState<number | string>(60);
 
   let offsetX = 0;
   let offsetY = 0;

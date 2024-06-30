@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
 const CalendarWidget = () => {
-    const [x, setX] = useState(480);
-    const [y, setY] = useState(60);
+    const [x, setX] = useState<number | string>("55%");
+    const [y, setY] = useState<number | string>(60);
   
     let offsetX = 0;
     let offsetY = 0;

@@ -4,7 +4,5 @@
   gap: 7px;
 }
 .calendar-form__inp {
-  color: black;
   font-size: 26px;
-  resize: none;
 }

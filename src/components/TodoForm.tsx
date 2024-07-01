@@ -5,6 +5,7 @@ import { useUnit } from 'effector-react';
 import { $todoStore, setDescription, setEvent, setName, setStatus } from '../store/todoStore';
 import { addTodo } from '../store/todoListStore';
 import { ITodo } from '../models/ITodo';
+import { $calendarStore } from '../store/calendarStore';
 
 interface IPropsTodoForm{
   setShowModal: (bool: boolean) => void;
@@ -16,6 +17,7 @@ const TodoForm: React.FC<IPropsTodoForm> = ({setShowModal}) => {
     $todoStore, setName, setEvent, setDescription, setStatus
   ]); 
   const [onAddTodo] = useUnit([addTodo]);
+  const [calendarStore] = useUnit([$calendarStore]);
 
   const addTodoInStore = () => {
     const newTodo: ITodo = {
@@ -56,9 +58,9 @@ const TodoForm: React.FC<IPropsTodoForm> = ({setShowModal}) => {
           id=""
           onChange={(e) => onSetEvent(e.target.value)}>
             {
+              calendarStore.events.map(event => <option key={event.id} value={event.title}>{event.title}</option>)
             //Тут пока хз как работает, так как ещё нет типа события из календаря
             }
-            <option value="Меро">Какое-то мероприятие</option>
         </select>
 
         <Button onClick={() => setShowModal(false)}>Отменить</Button>

@@ -3,11 +3,12 @@ import styles from '../assets/styles/Lk.module.css'
 import Chart from '../components/Chart';
 import { useUnit } from 'effector-react';
 import { $todoListStore } from '../store/todoListStore';
-import { $userStore, setAvatar } from '../store/userStore';
+import { $userStore, setAge, setAvatar, setDate, setName, setPatronymic, setSurname } from '../store/userStore';
 
 const Lk: React.FC = () => {
 
-  const [user, onSetAvatar] = useUnit([$userStore, setAvatar])
+  const [user, onSetAvatar, onSetSurname, onSetName, onSetPatronymic, onSetDate, onSetAge] = 
+    useUnit([$userStore, setAvatar, setSurname, setName, setPatronymic, setDate, setAge])
   const [todoList] = useUnit([$todoListStore]);
 
   const getAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,11 +33,14 @@ const Lk: React.FC = () => {
         <div className={styles['user-info']}>
           <h3 className={styles['user-info-title']}>Личная информация</h3>
           <div className={styles['user-info-fields']}>
-            <input type="text" placeholder='Фамилия' />
-            <input type="text" placeholder='Имя' />
-            <input type="text" placeholder='Отчество' />
-            <input type="date" />
-            <input type="number" placeholder='Возраст'/>
+            <input type="text" placeholder='Фамилия' value={user.surname} onChange={e => onSetSurname(e.target.value)}/>
+            <input type="text" placeholder='Имя' value={user.name} onChange={e => onSetName(e.target.value)}/>
+            <input type="text" placeholder='Отчество' value={user.patronymic} onChange={e => onSetPatronymic(e.target.value)}/>
+            <input type="date" value={user.birthday} onChange={e => {
+              onSetDate(String(e.target.value))
+              console.log(user.birthday);
+              }}/>
+            <input type="number" placeholder='Возраст' value={user.age} onChange={e => onSetAge(e.target.value)}/>
           </div>
         </div>
         <div className={styles['user-chart']}>

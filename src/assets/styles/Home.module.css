@@ -1,5 +1,6 @@
 .home {
   animation: show-page 1s ease;
+  height: 100%;
 }
 @keyframes show-page {
   from {

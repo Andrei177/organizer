@@ -21,7 +21,7 @@
   border-radius: 3px;
   font-size: 26px;
   display: grid;
-  grid-template-columns: repeat(3, 3fr) 1fr;
+  grid-template-columns: repeat(3, 3fr) 1fr 1fr;
   background-color: #1cff4d;
   gap: 3px;
 }

@@ -2,7 +2,8 @@ import { createEvent, createStore } from "effector";
 import { ICalendarEvent } from "../models/ICalendarEvent";
 
 interface ICalendar{
-    events: ICalendarEvent[]
+    events: ICalendarEvent[],
+    showCalendarForm: boolean
 }
 
 const addEventFn = (events: ICalendarEvent[], newEvent: ICalendarEvent) => [...events, newEvent];
@@ -21,10 +22,13 @@ const removeEventFn = (events: ICalendarEvent[], event: ICalendarEvent) => {
 export const addEvent = createEvent<ICalendarEvent>();
 export const updateEvent = createEvent<ICalendarEvent>();
 export const removeEvent = createEvent<ICalendarEvent>();
+export const setShowCalendarForm = createEvent<boolean>();
 
 export const $calendarStore = createStore<ICalendar>({
-    events: []
+    events: [],
+    showCalendarForm: false
 })
 .on(addEvent, (state, newEvent) => ({...state, events: addEventFn(state.events, newEvent)}))
 .on(updateEvent, (state, event) => ({...state, events: updateEventFn(state.events, event)}))
 .on(removeEvent, (state, event) => ({...state, events: removeEventFn(state.events, event)}))
+.on(setShowCalendarForm, (state, bool) => ({...state, showCalendarForm: bool}))

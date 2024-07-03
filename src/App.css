@@ -29,6 +29,7 @@ html{
 
 
 .test{
+  width: 190px;
   padding: 26px;
   border: 5px solid green;
 }

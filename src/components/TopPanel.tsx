@@ -4,8 +4,18 @@ import styles from '../assets/styles/TopPanel.module.css'
 
 const TopPanel: React.FC = () => {
   const navigate = useNavigate();
+
+  // const onSetOffsetTop = useUnit(setOffsetTop)
+
+  // const topRef = useRef();
+
+  // useEffect(() => {
+  //   onSetOffsetTop(+topRef.current.clientHeight);
+  // }, [])
   return (
-    <h1 className={styles['top-panel']} onClick={() => navigate("/")}>
+    <h1 className={styles['top-panel']} onClick={() => navigate("/")} 
+    //ref={topRef}
+    >
       Органайзер
     </h1>
   )

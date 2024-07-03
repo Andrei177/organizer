@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TodoListItem from '../components/TodoListItem'
-import { $todoListStore } from '../store/todoListStore'
+import { $todoListStore, setShowTodoForm } from '../store/todoListStore'
 import { useUnit } from 'effector-react'
 import Modal from '../components/Modal'
 import TodoForm from '../components/TodoForm'
 import Button from '../components/UI/Button'
 import todoItemStyle from '../assets/styles/TodoListItem.module.css'
 import styles from '../assets/styles/TodoList.module.css'
+import { setEmptyTodo, setIsEditing } from '../store/todoStore'
+import CalendarForm from '../components/CalendarForm'
+import { $calendarStore, setShowCalendarForm } from '../store/calendarStore'
+import { setIsReading } from '../store/calendarEventStore'
 
 const TodoList: React.FC = () => {
 
-  const [todoList] = useUnit([
-    $todoListStore
-  ]);
-
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [todoList, onSetShowTodoForm] = useUnit([$todoListStore, setShowTodoForm])
+  const [onSetIsEditing, onSetEmptyTodo, ] = useUnit([setIsEditing, setEmptyTodo])
+  const [onSetShowCalendarForm, calendarStore, ] = useUnit([setShowCalendarForm, $calendarStore])
+  const onSetIsReading = useUnit(setIsReading)
 
   const createTodo = () => {
-    setShowModal(true);
+    onSetShowTodoForm(true);
   }
 
   return (
@@ -31,14 +34,12 @@ const TodoList: React.FC = () => {
             <div className={todoItemStyle['todolist-item']}>Описание</div>
             <div className={todoItemStyle['todolist-item']}>Событие</div>
             <div className={todoItemStyle['todolist-item']}>Статус</div>
+            <div className={todoItemStyle['todolist-item']}>Ред...</div>
             {
               todoList.todos.map(todo => (
                 <TodoListItem 
                   key={todo.id} 
-                  name={todo.name} 
-                  description={todo.description} 
-                  event={todo.event} 
-                  status={todo.status} 
+                  todo={todo}
                 />)
               )
             }
@@ -46,8 +47,20 @@ const TodoList: React.FC = () => {
         </div>
 
       </div>
-      <Modal showModal={showModal}>
-        <TodoForm setShowModal={setShowModal} />
+      <Modal 
+        showModal={todoList.showTodoForm} 
+        setShowModal={onSetShowTodoForm} 
+        setIsEditing={onSetIsEditing} 
+        setEmptyForm={onSetEmptyTodo}
+      >
+        <TodoForm/>
+      </Modal>
+      <Modal 
+        showModal={calendarStore.showCalendarForm} 
+        setShowModal={onSetShowCalendarForm} 
+        setIsReading={onSetIsReading}
+      >
+        <CalendarForm/>
       </Modal>
     </>
   )

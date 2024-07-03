@@ -3,6 +3,7 @@ import { ITodo } from "../models/ITodo";
 
 interface TypeTodoListStore{
     todos: ITodo[],
+    showTodoForm: boolean,
 }
 
 const addTodoFunc = (todos: ITodo[], newTodo: ITodo) => {
@@ -23,9 +24,11 @@ const updateTodoFunc = (todos: ITodo[], updateTodo: ITodo) => {
 export const addTodo = createEvent<ITodo>(); // здесь в дженерике указывается остальные параметры коллбека в .on
 export const updateTodo = createEvent<ITodo>();
 export const removeTodo = createEvent<ITodo>();
+export const setShowTodoForm = createEvent<boolean>();
 
 export const $todoListStore = createStore<TypeTodoListStore>({
-    todos: []
+    todos: [],
+    showTodoForm: false,
 })
 .on(addTodo, (state, newTodo) => ({
     ...state,
@@ -38,4 +41,8 @@ export const $todoListStore = createStore<TypeTodoListStore>({
 .on(removeTodo, (state, remTodo) => ({
     ...state,
     todos: removeTodoFunc(state.todos, remTodo)
+}))
+.on(setShowTodoForm, (state, bool) => ({
+    ...state,
+    showTodoForm: bool
 }))

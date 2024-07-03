@@ -1,5 +1,11 @@
-.todolist-item{
-    padding: 5px;
-    text-align: center;
-    background-color: aliceblue;
-  }
+.todolist-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  background-color: aliceblue;
+}
+.edit, .event{
+  cursor: pointer;
+}

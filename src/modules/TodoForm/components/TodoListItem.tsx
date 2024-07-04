@@ -1,20 +1,20 @@
-import React from 'react'
-import styles from '../assets/styles/TodoListItem.module.css'
-import Img from './UI/Img'
-import edit from '../assets/edit.svg'
-import { ITodo } from '../models/ITodo'
+import { FC } from 'react'
+import styles from '../../../assets/styles/TodoListItem.module.css'
+import Img from '../../../UI/Img'
+import edit from '../../../assets/edit.svg'
+import { ITodo } from '../../../models/ITodo'
 import { useUnit } from 'effector-react'
-import { setShowTodoForm } from '../store/todoListStore'
+import { setShowTodoForm } from '../../../pages/TodoList/store/todoListStore'
 import { setIsEditing, setTodo } from '../store/todoStore'
-import { setShowCalendarForm } from '../store/calendarStore'
-import { ICalendarEvent } from '../models/ICalendarEvent'
-import { setEvent, setIsReading } from '../store/calendarEventStore'
+import { setShowCalendarForm } from '../../../pages/Calendar/store/calendarStore'
+import { ICalendarEvent } from '../../../models/ICalendarEvent'
+import { setEvent, setIsReading } from '../../CalendarForm/store/calendarEventStore'
 
 interface IPropsTodoListItem{
   todo: ITodo
 }
 
-const TodoListItem: React.FC<IPropsTodoListItem> = ({todo}) => {
+const TodoListItem: FC<IPropsTodoListItem> = ({todo}) => {
 
   const [onSetShowTodoForm] = useUnit([setShowTodoForm]);
   const [onSetTodo, onSetIsEditing] = useUnit([setTodo, setIsEditing]);

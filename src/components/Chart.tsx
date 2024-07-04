@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -18,7 +18,7 @@ interface IPropsChart{
     completed: number
 }
 
-const Chart: React.FC<IPropsChart> = ({completed, notCompleted}) => {
+const Chart: FC<IPropsChart> = ({completed, notCompleted}) => {
 
   const pieChartData = {
     labels: ["Завершено", "Не завершено"],

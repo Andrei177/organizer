@@ -1,23 +1,22 @@
-import React from 'react'
-import TodoListItem from '../components/TodoListItem'
+import { FC } from 'react'
+import TodoListItem from '../../../modules/TodoForm/components/TodoListItem'
 import { $todoListStore, setShowTodoForm } from '../store/todoListStore'
 import { useUnit } from 'effector-react'
-import Modal from '../components/Modal'
-import TodoForm from '../components/TodoForm'
-import Button from '../components/UI/Button'
-import todoItemStyle from '../assets/styles/TodoListItem.module.css'
-import styles from '../assets/styles/TodoList.module.css'
-import { setEmptyTodo, setIsEditing } from '../store/todoStore'
-import CalendarForm from '../components/CalendarForm'
-import { $calendarStore, setShowCalendarForm } from '../store/calendarStore'
-import { setIsReading } from '../store/calendarEventStore'
+import Modal from '../../../components/Modal/Modal'
+import TodoForm from '../../../modules/TodoForm/components/TodoForm'
+import Button from '../../../UI/Button'
+import todoItemStyle from '../../../assets/styles/TodoListItem.module.css'
+import styles from '../../../assets/styles/TodoList.module.css'
+import { setEmptyTodo, setIsEditing } from '../../../modules/TodoForm/store/todoStore'
+import CalendarForm from '../../../modules/CalendarForm/components/CalendarForm'
+import { $calendarStore, setShowCalendarForm } from '../../Calendar/store/calendarStore'
+import { setEmptyEvent, setIsReading } from '../../../modules/CalendarForm/store/calendarEventStore'
 
-const TodoList: React.FC = () => {
-
+const TodoList: FC = () => {
   const [todoList, onSetShowTodoForm] = useUnit([$todoListStore, setShowTodoForm])
   const [onSetIsEditing, onSetEmptyTodo, ] = useUnit([setIsEditing, setEmptyTodo])
   const [onSetShowCalendarForm, calendarStore, ] = useUnit([setShowCalendarForm, $calendarStore])
-  const onSetIsReading = useUnit(setIsReading)
+  const [onSetIsReading, onSetEmptyEvent] = useUnit([setIsReading, setEmptyEvent])
 
   const createTodo = () => {
     onSetShowTodoForm(true);
@@ -59,6 +58,7 @@ const TodoList: React.FC = () => {
         showModal={calendarStore.showCalendarForm} 
         setShowModal={onSetShowCalendarForm} 
         setIsReading={onSetIsReading}
+        setEmptyForm={onSetEmptyEvent}
       >
         <CalendarForm/>
       </Modal>

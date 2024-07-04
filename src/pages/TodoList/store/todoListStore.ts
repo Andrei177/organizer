@@ -1,5 +1,5 @@
 import { createEvent, createStore } from "effector";
-import { ITodo } from "../models/ITodo";
+import { ITodo } from "../../../models/ITodo";
 
 interface TypeTodoListStore{
     todos: ITodo[],
@@ -21,7 +21,7 @@ const updateTodoFunc = (todos: ITodo[], updateTodo: ITodo) => {
     })
 }
 
-export const addTodo = createEvent<ITodo>(); // здесь в дженерике указывается остальные параметры коллбека в .on
+export const addTodo = createEvent<ITodo>();
 export const updateTodo = createEvent<ITodo>();
 export const removeTodo = createEvent<ITodo>();
 export const setShowTodoForm = createEvent<boolean>();

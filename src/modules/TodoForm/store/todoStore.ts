@@ -1,6 +1,6 @@
 import { createEvent, createStore } from "effector";
-import { ITodo } from "../models/ITodo";
-import { ICalendarEvent } from "../models/ICalendarEvent";
+import { ITodo } from "../../../models/ITodo";
+import { ICalendarEvent } from "../../../models/ICalendarEvent";
 
 export const setName = createEvent<string>();
 export const setDescription = createEvent<string>();

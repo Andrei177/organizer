@@ -1,20 +1,22 @@
-import React, { useState } from 'react'
-import styles from '../assets/styles/Calendar.module.css'
+import { FC, useState } from 'react'
+import styles from '../../../assets/styles/Calendar.module.css'
 import CalendarComponent from 'react-calendar';
-import Button from '../components/UI/Button';
-import Modal from '../components/Modal';
-import CalendarForm from '../components/CalendarForm';
+import Button from '../../../UI/Button';
+import Modal from '../../../components/Modal/Modal';
+import CalendarForm from '../../../modules/CalendarForm/components/CalendarForm';
 import { useUnit } from 'effector-react';
 import { $calendarStore, setShowCalendarForm } from '../store/calendarStore';
-import { ICalendarEvent } from '../models/ICalendarEvent';
-import { setEmptyEvent, setEvent, setIsEditing, setIsReading } from '../store/calendarEventStore';
+import { ICalendarEvent } from '../../../models/ICalendarEvent';
+import { setEmptyEvent, setEvent, setIsEditing, setIsReading } from '../../../modules/CalendarForm/store/calendarEventStore';
 import { renderTile } from '../helpers/renderTile';
+import 'react-calendar/dist/Calendar.css';
+import '../../../assets/styles/CalendarComponent.css'
 
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const Calendar: React.FC = () => {
+const Calendar: FC = () => {
 
   const [value, onChange] = useState<Value>(new Date());
 
@@ -30,10 +32,11 @@ const Calendar: React.FC = () => {
     <div className={styles['calendar']}>
       <h1 className={styles['calendar-title']}>Календарь</h1>
       <CalendarComponent
+        className={styles['calendar-component']}
         value={value}
         onChange={onChange}
         tileContent={(tile) => renderTile(tile.date, tile.view, calendarStore.events, showInfoEvent, onSetIsEditing)} />
-      <Button onClick={() => onSetShowCalendarForm(true)}>Создать</Button>
+      <Button onClick={() => onSetShowCalendarForm(true)}>Создать событие</Button>
       <Modal 
         showModal={calendarStore.showCalendarForm} 
         setShowModal={onSetShowCalendarForm} 

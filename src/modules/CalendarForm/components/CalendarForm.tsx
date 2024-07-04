@@ -1,18 +1,18 @@
 import { useUnit } from 'effector-react'
-import React, { useEffect } from 'react'
-import styles from '../assets/styles/CalendarForm.module.css'
+import { FC, useEffect } from 'react'
+import styles from '../../../assets/styles/CalendarForm.module.css'
 import { $calendarEventStore, setEmptyEvent, setEndDate, setFullDay, setIsEditing, setStartDate, setTitle } from '../store/calendarEventStore'
-import Button from './UI/Button'
-import { addEvent, removeEvent, setShowCalendarForm, updateEvent } from '../store/calendarStore'
-import { ICalendarEvent } from '../models/ICalendarEvent'
-import { closeModal } from '../helpers/closeModal'
+import Button from '../../../UI/Button'
+import { addEvent, removeEvent, setShowCalendarForm, updateEvent } from '../../../pages/Calendar/store/calendarStore'
+import { ICalendarEvent } from '../../../models/ICalendarEvent'
+import { closeModal } from '../../../components/Modal/helpers/closeModal'
 
-const CalendarForm: React.FC = () => {
+const CalendarForm: FC = () => {
 
   const [calendarEventStore, onSetTitle, onSetStartDate, onSetEndDate, onSetFullDay, onSetIsEditing] =
     useUnit([$calendarEventStore, setTitle, setStartDate, setEndDate, setFullDay, setIsEditing])
-  const [onAddEvent, onUpdateEvent, onSetEmptyEvent, onRemoveEvent, onSetShowCalendarForm] = 
-  useUnit([addEvent, updateEvent, setEmptyEvent, removeEvent, setShowCalendarForm])
+  const [onAddEvent, onUpdateEvent, onSetEmptyEvent, onRemoveEvent, onSetShowCalendarForm] =
+    useUnit([addEvent, updateEvent, setEmptyEvent, removeEvent, setShowCalendarForm])
 
   useEffect(() => {
     if (calendarEventStore.event.fullDay && calendarEventStore.event.startDate) {
@@ -69,7 +69,7 @@ const CalendarForm: React.FC = () => {
       />
 
       <Button
-        disabled={calendarEventStore.isReading} 
+        disabled={calendarEventStore.isReading}
         onClick={() => closeModal(onSetShowCalendarForm, onSetIsEditing, onSetEmptyEvent)}
       >
         Отменить
@@ -86,6 +86,11 @@ const CalendarForm: React.FC = () => {
       >
         Сохранить
       </Button>
+      <input
+        disabled={calendarEventStore.isReading}
+        type="checkbox"
+        checked={calendarEventStore.event.fullDay}
+        onChange={(e) => onSetFullDay(e.target.checked)} /><span>Целый день</span>
       {
         calendarEventStore.isEditing && <Button
           disabled={calendarEventStore.isReading}
@@ -97,11 +102,6 @@ const CalendarForm: React.FC = () => {
           Удалить
         </Button>
       }
-      <input
-        disabled={calendarEventStore.isReading} 
-        type="checkbox" 
-        checked={calendarEventStore.event.fullDay} 
-        onChange={(e) => onSetFullDay(e.target.checked)} /><span>Целый день</span>
     </div>
   )
 }

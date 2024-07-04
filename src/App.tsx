@@ -4,7 +4,6 @@ import TopPanel from './components/TopPanel';
 import SideBar from './components/SideBar';
 
 function App() {
-
   return (
     <div className="app">
       <SideBar/>

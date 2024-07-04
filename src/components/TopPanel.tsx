@@ -1,21 +1,11 @@
-import React from 'react'
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from '../assets/styles/TopPanel.module.css'
 
-const TopPanel: React.FC = () => {
+const TopPanel: FC = () => {
   const navigate = useNavigate();
-
-  // const onSetOffsetTop = useUnit(setOffsetTop)
-
-  // const topRef = useRef();
-
-  // useEffect(() => {
-  //   onSetOffsetTop(+topRef.current.clientHeight);
-  // }, [])
   return (
-    <h1 className={styles['top-panel']} onClick={() => navigate("/")} 
-    //ref={topRef}
-    >
+    <h1 className={styles['top-panel']} onClick={() => navigate("/")} >
       Органайзер
     </h1>
   )

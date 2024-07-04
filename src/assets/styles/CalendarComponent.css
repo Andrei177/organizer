@@ -1,0 +1,4 @@
+.react-calendar__tile {
+    width: 300px !important;
+    overflow-y: scroll;
+}

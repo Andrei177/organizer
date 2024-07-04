@@ -1,5 +1,5 @@
 import { createEvent, createStore } from "effector";
-import { IUser } from "../models/IUser";
+import { IUser } from "../../../models/IUser";
 
 export const setAvatar = createEvent<File>();
 export const setSurname = createEvent<string>();

@@ -1,8 +1,8 @@
 import React from "react";
-import Calendar from "../pages/Calendar";
-import Home from "../pages/Home";
-import Lk from "../pages/Lk";
-import TodoList from "../pages/TodoList";
+import Calendar from "../pages/Calendar/components/Calendar";
+import Home from "../pages/Home/components/Home";
+import Lk from "../pages/Lk/components/Lk";
+import TodoList from "../pages/TodoList/components/TodoList";
 
 interface IRoutes{
     path: string;

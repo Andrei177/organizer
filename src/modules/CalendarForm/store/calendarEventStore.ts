@@ -1,5 +1,5 @@
 import { createEvent, createStore } from "effector";
-import { ICalendarEvent } from "../models/ICalendarEvent";
+import { ICalendarEvent } from "../../../models/ICalendarEvent";
 
 interface ICalendarEventStore{
     event: ICalendarEvent,

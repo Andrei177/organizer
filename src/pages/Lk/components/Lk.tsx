@@ -1,11 +1,11 @@
-import React from 'react'
-import styles from '../assets/styles/Lk.module.css'
-import Chart from '../components/Chart';
+import { FC } from 'react'
+import styles from '../../../assets/styles/Lk.module.css'
+import Chart from '../../../components/Chart';
 import { useUnit } from 'effector-react';
-import { $todoListStore } from '../store/todoListStore';
+import { $todoListStore } from '../../TodoList/store/todoListStore';
 import { $userStore, setAge, setAvatar, setDate, setName, setPatronymic, setSurname } from '../store/userStore';
 
-const Lk: React.FC = () => {
+const Lk: FC = () => {
 
   const [user, onSetAvatar, onSetSurname, onSetName, onSetPatronymic, onSetDate, onSetAge] = 
     useUnit([$userStore, setAvatar, setSurname, setName, setPatronymic, setDate, setAge])

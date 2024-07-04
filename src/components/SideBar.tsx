@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import home from '../assets/home.svg'
 import calendar from '../assets/calendar.svg'
 import todolist from '../assets/todolist.svg'
 import user from '../assets/user.svg'
-import Img from './UI/Img'
+import Img from '../UI/Img'
 import styles from '../assets/styles/SideBar.module.css'
 
-const SideBar: React.FC = () => {
+const SideBar: FC = () => {
     const [showMenu, setShowMenu] = useState(false);
 
     // const menuRef = useRef();

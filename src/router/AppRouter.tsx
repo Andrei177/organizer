@@ -1,8 +1,8 @@
-import React from 'react'
+import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { routes } from './routes'
 
-const AppRouter: React.FC = () => {
+const AppRouter: FC = () => {
   return (
     <div className='app-router'>
       <Routes>

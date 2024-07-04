@@ -1,5 +1,6 @@
-import { ICalendarEvent } from "../models/ICalendarEvent";
+import { ICalendarEvent } from "../../../models/ICalendarEvent";
 import { compareDatesWithoutTime } from "./compareDates";
+import styles from "../../../assets/styles/Calendar.module.css"
 
 export const renderTile = (
   date: Date, 
@@ -28,7 +29,9 @@ export const renderTile = (
                 setIsEditing(true);
               }}
               key={event.id}
-              style={{ backgroundColor: `rgb(${red}, ${green}, ${blue})` }}>
+              className={styles['calendar-tile-content']}
+              style={{backgroundColor: `rgb(${red}, ${green}, ${blue})`}}
+              >
               {event.title}
             </li>
           }

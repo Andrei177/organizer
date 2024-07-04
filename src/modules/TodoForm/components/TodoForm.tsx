@@ -1,14 +1,14 @@
-import React from 'react'
-import Button from './UI/Button'
-import styles from '../assets/styles/TodoForm.module.css'
+import { FC } from 'react'
+import Button from '../../../UI/Button'
+import styles from '../../../assets/styles/TodoForm.module.css'
 import { useUnit } from 'effector-react';
 import { $todoStore, setDescription, setEmptyTodo, setEmptyTodoEvent, setEvent, setIsEditing, setName, setStatus } from '../store/todoStore';
-import { addTodo, removeTodo, setShowTodoForm, updateTodo } from '../store/todoListStore';
-import { ITodo } from '../models/ITodo';
-import { $calendarStore } from '../store/calendarStore';
-import { closeModal } from '../helpers/closeModal';
+import { addTodo, removeTodo, setShowTodoForm, updateTodo } from '../../../pages/TodoList/store/todoListStore';
+import { ITodo } from '../../../models/ITodo';
+import { $calendarStore } from '../../../pages/Calendar/store/calendarStore';
+import { closeModal } from '../../../components/Modal/helpers/closeModal';
 
-const TodoForm: React.FC = () => {
+const TodoForm: FC = () => {
 
   const [todoStore, onSetName, onSetEvent, onSetDescription, onSetStatus, onSetEmptyTodo, onSetIsEditing, onSetEmptyTodoEvent] = useUnit([
     $todoStore, setName, setEvent, setDescription, setStatus, setEmptyTodo, setIsEditing, setEmptyTodoEvent
@@ -19,10 +19,10 @@ const TodoForm: React.FC = () => {
   const [calendarStore] = useUnit([$calendarStore]);
 
   const saveTodo = () => {
-    if(todoStore.isEditing){
+    if (todoStore.isEditing) {
       onUpdateTodo(todoStore.todo)
     }
-    else{
+    else {
       const newTodo: ITodo = {
         id: Date.now(),
         name: todoStore.todo.name,
@@ -57,12 +57,19 @@ const TodoForm: React.FC = () => {
 
       <select
         className={styles['todo-form__inp']}
-        onChange={e => e.target.value === "" ? onSetEmptyTodoEvent() :onSetEvent(JSON.parse(e.target.value))}
+        onChange={e => e.target.value === "" ? onSetEmptyTodoEvent() : onSetEvent(JSON.parse(e.target.value))}
         defaultValue={"Выберите событие"}
       >
         <option value={""}>Без события</option>
         {
-          calendarStore.events.map(event => <option key={event.id} value={JSON.stringify(event)}>{event.title}</option>)
+          calendarStore.events.map(event =>
+            <option
+              key={event.id}
+              value={JSON.stringify(event)}
+            >
+              {event.title.length > 20 ? event.title.slice(0, 20) + "..." : event.title}
+            </option>
+          )
         }
       </select>
 

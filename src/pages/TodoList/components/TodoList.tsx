@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import TodoListItem from '../../../modules/TodoForm/components/TodoListItem'
+import TodoListItem from './TodoListItem'
 import { $todoListStore, setShowTodoForm } from '../store/todoListStore'
 import { useUnit } from 'effector-react'
 import Modal from '../../../components/Modal/Modal'

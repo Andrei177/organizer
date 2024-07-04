@@ -25,3 +25,6 @@
   background-color: #1cff4d;
   gap: 3px;
 }
+.mini{
+  grid-template-columns: 3fr 1fr;
+}

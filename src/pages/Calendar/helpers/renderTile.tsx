@@ -2,41 +2,71 @@ import { ICalendarEvent } from "../../../models/ICalendarEvent";
 import { compareDatesWithoutTime } from "./compareDates";
 import styles from "../../../assets/styles/Calendar.module.css"
 
-export const renderTile = (
+export function renderTile(
   date: Date, 
   view: string, 
   events: ICalendarEvent[], 
-  showInfoEvent: (event: ICalendarEvent) => void,
-  setIsEditing: (bool: boolean) => void
-) => {
+  showInfoEvent?: (event: ICalendarEvent) => void, 
+  setIsEditing?: (bool: boolean) => void
+): JSX.Element;
+
+export function renderTile(
+  date: Date, 
+  view: string, 
+  events: ICalendarEvent[], 
+  mini: boolean
+): JSX.Element;
+
+export function renderTile(
+  date: Date, 
+  view: string, 
+  events: ICalendarEvent[], 
+  showInfoEventOrMini?: ((event: ICalendarEvent) => void) | boolean, 
+  setIsEditing?: (bool: boolean) => void, 
+  mini: boolean = false
+): JSX.Element {
+  if (typeof showInfoEventOrMini === 'boolean') {
+    mini = showInfoEventOrMini;
+  }
+  
   if (view === 'month') {
     const arrEvents: ICalendarEvent[] = events.filter(event => {
       const startDate = new Date(String(event.startDate));
       const endDate = new Date(String(event.endDate));
-      return ((date >= startDate || compareDatesWithoutTime(startDate, date)) && date <= endDate)
-    })
-    return <ul>
-      {
-        arrEvents.map(event => {
+      return ((date >= startDate || compareDatesWithoutTime(startDate, date)) && date <= endDate);
+    });
+
+    return (
+      <ul>
+        {arrEvents.map(event => {
           if (event.id !== null) {
             const idRGB = event.id;
             const red = 128 + (idRGB % 128);
             const green = 128 + ((idRGB + 42) % 128);
             const blue = 128 + ((idRGB + 84) % 128);
-            return <li
-              onClick={() => {
-                showInfoEvent(event)
-                setIsEditing(true);
-              }}
-              key={event.id}
-              className={styles['calendar-tile-content']}
-              style={{backgroundColor: `rgb(${red}, ${green}, ${blue})`}}
+            return (
+              <li
+                onClick={() => {
+                  if (typeof showInfoEventOrMini === 'function') {
+                    showInfoEventOrMini(event);
+                  }
+                  if (setIsEditing) {
+                    setIsEditing(true);
+                  }
+                }}
+                key={event.id}
+                className={styles['calendar-tile-content']}
+                style={{ backgroundColor: `rgb(${red}, ${green}, ${blue})` }}
               >
-              {event.title}
-            </li>
+                {mini ? " ! " : event.title}
+              </li>
+            );
           }
-        })
-      }
-    </ul>
+          return null;
+        })}
+      </ul>
+    );
   }
+  
+  return <></>; // Возвращайте пустой элемент, если view не равен 'month'
 }

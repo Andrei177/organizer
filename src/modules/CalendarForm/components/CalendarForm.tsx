@@ -6,6 +6,7 @@ import Button from '../../../UI/Button'
 import { addEvent, removeEvent, setShowCalendarForm, updateEvent } from '../../../pages/Calendar/store/calendarStore'
 import { ICalendarEvent } from '../../../models/ICalendarEvent'
 import { closeModal } from '../../../components/Modal/helpers/closeModal'
+import { setNoticeMessage, setShowNotice } from '../../Notification/store/noticeStore'
 
 const CalendarForm: FC = () => {
 
@@ -13,6 +14,8 @@ const CalendarForm: FC = () => {
     useUnit([$calendarEventStore, setTitle, setStartDate, setEndDate, setFullDay, setIsEditing])
   const [onAddEvent, onUpdateEvent, onSetEmptyEvent, onRemoveEvent, onSetShowCalendarForm] =
     useUnit([addEvent, updateEvent, setEmptyEvent, removeEvent, setShowCalendarForm])
+
+  const [onSetNoticeMessage, onSetShowNotice] = useUnit([setNoticeMessage, setShowNotice])
 
   useEffect(() => {
     if (calendarEventStore.event.fullDay && calendarEventStore.event.startDate) {
@@ -25,6 +28,8 @@ const CalendarForm: FC = () => {
     if (calendarEventStore.isEditing) {
       onUpdateEvent(calendarEventStore.event);
       setIsEditing(false);
+      onSetNoticeMessage("Событие успешно отредактировано")
+      onSetShowNotice(true)
     }
     else {
       const currentEvent: ICalendarEvent = {
@@ -35,8 +40,16 @@ const CalendarForm: FC = () => {
         fullDay: calendarEventStore.event.fullDay
       }
       onAddEvent(currentEvent);
+      onSetNoticeMessage("Событие успешно создано")
+      onSetShowNotice(true)
     }
     onSetEmptyEvent();
+  }
+  const handlerRemoveEvent = () => {
+    onSetNoticeMessage("Событие успешно удалено")
+    onSetShowNotice(true)
+    onRemoveEvent(calendarEventStore.event)
+    closeModal(onSetShowCalendarForm, onSetIsEditing, onSetEmptyEvent)
   }
 
   return (
@@ -94,10 +107,7 @@ const CalendarForm: FC = () => {
       {
         calendarEventStore.isEditing && <Button
           disabled={calendarEventStore.isReading}
-          onClick={() => {
-            onRemoveEvent(calendarEventStore.event)
-            closeModal(onSetShowCalendarForm, onSetIsEditing, onSetEmptyEvent)
-          }}
+          onClick={handlerRemoveEvent}
         >
           Удалить
         </Button>

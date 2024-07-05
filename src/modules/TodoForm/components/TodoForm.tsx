@@ -7,6 +7,7 @@ import { addTodo, removeTodo, setShowTodoForm, updateTodo } from '../../../pages
 import { ITodo } from '../../../models/ITodo';
 import { $calendarStore } from '../../../pages/Calendar/store/calendarStore';
 import { closeModal } from '../../../components/Modal/helpers/closeModal';
+import { setNoticeMessage, setShowNotice } from '../../Notification/store/noticeStore';
 
 const TodoForm: FC = () => {
 
@@ -18,9 +19,13 @@ const TodoForm: FC = () => {
   ]);
   const [calendarStore] = useUnit([$calendarStore]);
 
+  const [onSetNoticeMessage, onSetShowNotice] = useUnit([setNoticeMessage, setShowNotice])
+
   const saveTodo = () => {
     if (todoStore.isEditing) {
       onUpdateTodo(todoStore.todo)
+      onSetNoticeMessage("Дело успешно отредактировано")
+      onSetShowNotice(true)
     }
     else {
       const newTodo: ITodo = {
@@ -31,7 +36,16 @@ const TodoForm: FC = () => {
         status: todoStore.todo.status
       }
       onAddTodo(newTodo);
+      onSetNoticeMessage("Дело успешно создано")
+      onSetShowNotice(true)
     }
+    closeModal(onSetShowTodoForm, onSetIsEditing, onSetEmptyTodo)
+  }
+
+  const handlerRemoveTodo = () => {
+    onSetNoticeMessage("Дело успешно удалено")
+    onSetShowNotice(true)
+    onRemoveTodo(todoStore.todo)
     closeModal(onSetShowTodoForm, onSetIsEditing, onSetEmptyTodo)
   }
 
@@ -60,7 +74,7 @@ const TodoForm: FC = () => {
         onChange={e => e.target.value === "" ? onSetEmptyTodoEvent() : onSetEvent(JSON.parse(e.target.value))}
         defaultValue={"Выберите событие"}
       >
-        <option value={""}>Без события</option>
+        <option value={""} onClick={() => console.log("click")}>Без события</option>
         {
           calendarStore.events.map(event =>
             <option
@@ -78,10 +92,7 @@ const TodoForm: FC = () => {
       <input type="checkbox" checked={todoStore.todo.status} onChange={(e) => onSetStatus(e.target.checked)} /><span>Завершено</span>
       {
         todoStore.isEditing && <Button
-          onClick={() => {
-            onRemoveTodo(todoStore.todo)
-            closeModal(onSetShowTodoForm, onSetIsEditing, onSetEmptyTodo)
-          }}
+          onClick={handlerRemoveTodo}
         >
           Удалить
         </Button>

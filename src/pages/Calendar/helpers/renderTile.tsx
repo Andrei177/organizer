@@ -58,7 +58,7 @@ export function renderTile(
                 className={styles['calendar-tile-content']}
                 style={{ backgroundColor: `rgb(${red}, ${green}, ${blue})` }}
               >
-                {mini ? " ! " : event.title}
+                {mini ? " ! " : event.title.length > 10 ? event.title.slice(0, 9) + "..." : event.title}
               </li>
             );
           }
@@ -68,5 +68,5 @@ export function renderTile(
     );
   }
   
-  return <></>; // Возвращайте пустой элемент, если view не равен 'month'
+  return <></>;
 }

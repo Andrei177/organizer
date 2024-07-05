@@ -1,49 +1,79 @@
-import { FC, ReactNode, useState } from 'react'
-import { ICoords } from '../types/ICoords'
-import styles from '../../../assets/styles/Home.module.css'
-import Draggable from 'react-draggable'
-import { useNavigate } from 'react-router-dom'
+import React, { FC, ReactNode, RefObject, useRef, useState } from 'react';
+import { ICoords } from '../types/ICoords';
+import { useNavigate } from 'react-router-dom';
 
-interface IWidget{
+interface IWidget {
     position: ICoords,
     setPosition: (newPosition: ICoords) => void,
     clickRoute: string,
     title: string,
-    children: ReactNode
+    children: ReactNode,
+    containerRef: RefObject<HTMLDivElement>
 }
 
-const Widget: FC<IWidget> = ({position, setPosition, clickRoute, title, children}) => {
-    const [isDragging, setIsDragging] = useState<boolean>(false);
-
-    const handleDrag = (_e: any, data: any) => {
-        setIsDragging(true);
-        setPosition({ x: data.x, y: data.y });
-    }
-    const handleStop = () => {
-        setTimeout(() => setIsDragging(false), 0);
-    }
-    const handleClick = () => {
-        if(!isDragging){
-            navigate(clickRoute)
-        }
-    }
-
+const Widget: FC<IWidget> = ({ position, setPosition, clickRoute, title, children, containerRef }) => {
+    const widgetRef = useRef<HTMLDivElement>(null);
+    const [dragging, setDragging] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
+    const [rel, setRel] = useState({ x: 0, y: 0 });
     const navigate = useNavigate();
-    
+
+    const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (widgetRef.current) {
+            const rect = widgetRef.current.getBoundingClientRect();
+            setDragging(true);
+            setRel({
+                x: e.pageX - rect.left,
+                y: e.pageY - rect.top,
+            });
+            setIsDragging(false);
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    };
+
+    const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (!dragging) return;
+        if (containerRef.current && widgetRef.current) {
+            const containerRect = containerRef.current.getBoundingClientRect();
+            const widgetRect = widgetRef.current.getBoundingClientRect();
+
+            let newX = e.pageX - containerRect.left - rel.x;
+            let newY = e.pageY - containerRect.top - rel.y;
+
+            newX = Math.max(0, Math.min(newX, containerRect.width - widgetRect.width));
+            newY = Math.max(0, Math.min(newY, containerRect.height - widgetRect.height));
+
+            setPosition({ x: newX, y: newY });
+        }
+        setIsDragging(true);
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    const onMouseUp = () => {
+        setDragging(false);
+    };
 
     return (
-        <Draggable
-            position={position}
-            onDrag={handleDrag}
-            onStop={handleStop}
-            bounds='parent'
-            >
-            <div className={styles['widget']} onClick={handleClick}>
-                <h3>{title}</h3>
-                {children}
-            </div>
-        </Draggable>
-    )
-}
+        <div
+            ref={widgetRef}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
+            onMouseLeave={onMouseUp}
+            style={{
+                position: 'absolute',
+                cursor: 'grab',
+                left: position.x,
+                top: position.y,
+            }}
+            onClick={() => { if (!isDragging) navigate(clickRoute) }}
+        >
+            <h3>{title}</h3>
+            {children}
+        </div>
+    );
+};
 
-export default Widget
+export default Widget;

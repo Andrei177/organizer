@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import styles from '../../../assets/styles/Home.module.css'
 import Widget from './Widget'
 import CalendarMini from 'react-calendar'
@@ -17,16 +17,20 @@ const Home: FC = () => {
   const calendar = useUnit($calendarStore)
   const todoList = useUnit($todoListStore);
 
+  const containerRef = useRef(null);
 
   return (
-    <div className={styles['home']}>
+    <div 
+    ref={containerRef}
+    className={styles['home']}
+    >
       <h1 className={styles['home-title']}>Главная</h1>
-      <Widget title="Календарь" position={homeStore.positionCalendar} setPosition={onSetPositionCalendar} clickRoute="/calendar">
+      <Widget title="Календарь" position={homeStore.positionCalendar} setPosition={onSetPositionCalendar} clickRoute="/calendar" containerRef={containerRef}>
         <CalendarMini
           tileContent={(tile) => renderTile(tile.date, tile.view, calendar.events, true)}
         />
       </Widget>
-      <Widget title="Список дел" position={homeStore.positionTodoList} setPosition={onSetPositionTodoList} clickRoute="/todolist">
+      <Widget title="Список дел" position={homeStore.positionTodoList} setPosition={onSetPositionTodoList} clickRoute="/todolist" containerRef={containerRef}>
         <div className={todoListStyle['todolist-table'] + " " + todoListStyle['mini']}>
           <div className={todoItemStyle['todolist-item']}>Наименование</div>
           <div className={todoItemStyle['todolist-item']}>Статус</div>

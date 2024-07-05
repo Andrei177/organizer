@@ -11,11 +11,11 @@ export const setPositionTodoList = createEvent<ICoords>();
 
 export const $homeStore = createStore<IHomeStore>({
     positionCalendar: {
-        x: 0,
-        y: 0
+        x: 190,
+        y: 100
     },
     positionTodoList: {
-        x: 100,
+        x: 700,
         y: 100
     }
 })

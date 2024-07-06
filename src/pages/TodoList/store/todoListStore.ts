@@ -1,5 +1,6 @@
-import { createEvent, createStore } from "effector";
+import { createEffect, createEvent, createStore } from "effector";
 import { ITodo } from "../../../models/ITodo";
+import { addTodoOnServer, getTodos, removeTodoOnServer, updateTodoOnServer } from "../api/api"
 
 interface TypeTodoListStore{
     todos: ITodo[],
@@ -26,6 +27,11 @@ export const updateTodo = createEvent<ITodo>();
 export const removeTodo = createEvent<ITodo>();
 export const setShowTodoForm = createEvent<boolean>();
 
+export const addTodoServer = createEffect(addTodoOnServer)
+export const updateTodoServer = createEffect(updateTodoOnServer)
+export const removeTodoServer = createEffect(removeTodoOnServer)
+export const fetchTodos = createEffect(getTodos)
+
 export const $todoListStore = createStore<TypeTodoListStore>({
     todos: [],
     showTodoForm: false,
@@ -46,3 +52,7 @@ export const $todoListStore = createStore<TypeTodoListStore>({
     ...state,
     showTodoForm: bool
 }))
+.on(addTodoServer.doneData, (state, newTodo) => ({...state, todos: addTodoFunc(state.todos, newTodo)}))
+.on(updateTodoServer.doneData, (state, todo) => ({...state, todos: updateTodoFunc(state.todos, todo)}))
+.on(removeTodoServer.doneData, (state, todo) => ({...state, todos: removeTodoFunc(state.todos, todo)}))
+.on(fetchTodos.doneData, (state, newTodos) => ({...state, todos: [...newTodos]}))

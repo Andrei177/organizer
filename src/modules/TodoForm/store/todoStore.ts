@@ -11,7 +11,7 @@ export const setTodo = createEvent<ITodo>();
 export const setIsEditing = createEvent<boolean>();
 export const setEmptyTodoEvent = createEvent();
 
-interface ITodoStore{
+export interface ITodoStore{
     todo: ITodo,
     isEditing: boolean
 }

@@ -1,7 +1,8 @@
-import { createEvent, createStore } from "effector";
+import { createEffect, createEvent, createStore } from "effector";
 import { ICalendarEvent } from "../../../models/ICalendarEvent";
+import { addEventOnServer, getEvents, removeEventOnServer, updateEventOnServer } from "../api/api";
 
-interface ICalendar{
+export interface ICalendar{
     events: ICalendarEvent[],
     showCalendarForm: boolean
 }
@@ -24,6 +25,11 @@ export const updateEvent = createEvent<ICalendarEvent>();
 export const removeEvent = createEvent<ICalendarEvent>();
 export const setShowCalendarForm = createEvent<boolean>();
 
+export const addEventServer = createEffect(addEventOnServer)
+export const updateEventServer = createEffect(updateEventOnServer)
+export const removeEventServer = createEffect(removeEventOnServer)
+export const fetchEvents = createEffect(getEvents)
+
 export const $calendarStore = createStore<ICalendar>({
     events: [],
     showCalendarForm: false
@@ -32,3 +38,7 @@ export const $calendarStore = createStore<ICalendar>({
 .on(updateEvent, (state, event) => ({...state, events: updateEventFn(state.events, event)}))
 .on(removeEvent, (state, event) => ({...state, events: removeEventFn(state.events, event)}))
 .on(setShowCalendarForm, (state, bool) => ({...state, showCalendarForm: bool}))
+.on(addEventServer.doneData, (state, newEvent) => ({...state, events: addEventFn(state.events, newEvent)}))
+.on(updateEventServer.doneData, (state, event) => ({...state, events: updateEventFn(state.events, event)}))
+.on(removeEventServer.doneData, (state, event) => ({...state, events: removeEventFn(state.events, event)}))
+.on(fetchEvents.doneData, (state, newEvents) => ({...state, events: [...newEvents]}))

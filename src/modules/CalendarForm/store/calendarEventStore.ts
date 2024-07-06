@@ -1,7 +1,7 @@
 import { createEvent, createStore } from "effector";
 import { ICalendarEvent } from "../../../models/ICalendarEvent";
 
-interface ICalendarEventStore{
+export interface ICalendarEventStore{
     event: ICalendarEvent,
     isEditing: boolean,
     isReading: boolean

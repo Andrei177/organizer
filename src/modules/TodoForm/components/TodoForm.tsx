@@ -3,10 +3,10 @@ import Button from '../../../UI/Button'
 import styles from '../../../assets/styles/TodoForm.module.css'
 import { useUnit } from 'effector-react';
 import { $todoStore, setDescription, setEmptyTodo, setEmptyTodoEvent, setEvent, setIsEditing, setName, setStatus } from '../store/todoStore';
-import { addTodo, removeTodo, setShowTodoForm, updateTodo } from '../../../pages/TodoList/store/todoListStore';
-import { ITodo } from '../../../models/ITodo';
+import { addTodoServer, removeTodoServer, setShowTodoForm, updateTodoServer } from '../../../pages/TodoList/store/todoListStore';
 import { $calendarStore } from '../../../pages/Calendar/store/calendarStore';
 import { closeModal } from '../../../components/Modal/helpers/closeModal';
+import { handlerRemoveTodo, saveTodo } from '../helpers/handlers';
 import { setNoticeMessage, setShowNotice } from '../../Notification/store/noticeStore';
 
 const TodoForm: FC = () => {
@@ -14,41 +14,25 @@ const TodoForm: FC = () => {
   const [todoStore, onSetName, onSetEvent, onSetDescription, onSetStatus, onSetEmptyTodo, onSetIsEditing, onSetEmptyTodoEvent] = useUnit([
     $todoStore, setName, setEvent, setDescription, setStatus, setEmptyTodo, setIsEditing, setEmptyTodoEvent
   ]);
-  const [onAddTodo, onUpdateTodo, onRemoveTodo, onSetShowTodoForm] = useUnit([
-    addTodo, updateTodo, removeTodo, setShowTodoForm
-  ]);
   const [calendarStore] = useUnit([$calendarStore]);
 
-  const [onSetNoticeMessage, onSetShowNotice] = useUnit([setNoticeMessage, setShowNotice])
+  const [
+    onSetShowTodoForm,
+    onAddTodoServer,
+    onUpdateTodoServer,
+    onRemoveTodoServer,
+  ] = useUnit([
+    setShowTodoForm,
+    addTodoServer,
+    updateTodoServer,
+    removeTodoServer,
+  ]);
 
-  const saveTodo = () => {
-    if (todoStore.isEditing) {
-      onUpdateTodo(todoStore.todo)
-      onSetNoticeMessage("Дело успешно отредактировано")
-      onSetShowNotice(true)
-    }
-    else {
-      const newTodo: ITodo = {
-        id: Date.now(),
-        name: todoStore.todo.name,
-        description: todoStore.todo.description,
-        event: todoStore.todo.event,
-        status: todoStore.todo.status
-      }
-      onAddTodo(newTodo);
-      onSetNoticeMessage("Дело успешно создано")
-      onSetShowNotice(true)
-    }
-    closeModal(onSetShowTodoForm, onSetIsEditing, onSetEmptyTodo)
-  }
-
-  const handlerRemoveTodo = () => {
-    onSetNoticeMessage("Дело успешно удалено")
-    onSetShowNotice(true)
-    onRemoveTodo(todoStore.todo)
-    closeModal(onSetShowTodoForm, onSetIsEditing, onSetEmptyTodo)
-  }
-
+  const [onSetNoticeMessage, onSetShowNotice] = useUnit([
+    setNoticeMessage,
+    setShowNotice,
+  ]);
+  
   return (
     <div className={styles['todo-form']}>
       {
@@ -88,11 +72,34 @@ const TodoForm: FC = () => {
       </select>
 
       <Button onClick={() => closeModal(onSetShowTodoForm, onSetIsEditing, onSetEmptyTodo)}>Отменить</Button>
-      <Button onClick={saveTodo} disabled={!todoStore.todo.name}>Сохранить</Button>
+      <Button
+        onClick={() => saveTodo({
+          todoStore,
+          onUpdateTodoServer,
+          onSetNoticeMessage,
+          onSetShowNotice,
+          onAddTodoServer,
+          onSetShowTodoForm,
+          onSetIsEditing,
+          onSetEmptyTodo
+        })}
+        disabled={!todoStore.todo.name}
+      >
+        Сохранить
+      </Button>
       <input type="checkbox" checked={todoStore.todo.status} onChange={(e) => onSetStatus(e.target.checked)} /><span>Завершено</span>
       {
         todoStore.isEditing && <Button
-          onClick={handlerRemoveTodo}
+          onClick={() => handlerRemoveTodo({
+            todoStore,
+            onRemoveTodoServer,
+            onSetNoticeMessage,
+            onSetShowNotice,
+            onAddTodoServer,
+            onSetShowTodoForm,
+            onSetIsEditing,
+            onSetEmptyTodo
+          })}
         >
           Удалить
         </Button>

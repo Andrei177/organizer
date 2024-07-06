@@ -3,17 +3,17 @@ import { FC, useEffect } from 'react'
 import styles from '../../../assets/styles/CalendarForm.module.css'
 import { $calendarEventStore, setEmptyEvent, setEndDate, setFullDay, setIsEditing, setStartDate, setTitle } from '../store/calendarEventStore'
 import Button from '../../../UI/Button'
-import { addEvent, removeEvent, setShowCalendarForm, updateEvent } from '../../../pages/Calendar/store/calendarStore'
-import { ICalendarEvent } from '../../../models/ICalendarEvent'
+import { addEventServer, removeEventServer, setShowCalendarForm, updateEventServer } from '../../../pages/Calendar/store/calendarStore'
 import { closeModal } from '../../../components/Modal/helpers/closeModal'
 import { setNoticeMessage, setShowNotice } from '../../Notification/store/noticeStore'
+import { handlerRemoveEvent, saveEvent } from '../helpers/handlers'
 
 const CalendarForm: FC = () => {
 
   const [calendarEventStore, onSetTitle, onSetStartDate, onSetEndDate, onSetFullDay, onSetIsEditing] =
     useUnit([$calendarEventStore, setTitle, setStartDate, setEndDate, setFullDay, setIsEditing])
-  const [onAddEvent, onUpdateEvent, onSetEmptyEvent, onRemoveEvent, onSetShowCalendarForm] =
-    useUnit([addEvent, updateEvent, setEmptyEvent, removeEvent, setShowCalendarForm])
+  const [onSetEmptyEvent, onSetShowCalendarForm, onAddEventServer, onUpdateEventServer, onRemoveEventServer] =
+    useUnit([setEmptyEvent, setShowCalendarForm, addEventServer, updateEventServer, removeEventServer])
 
   const [onSetNoticeMessage, onSetShowNotice] = useUnit([setNoticeMessage, setShowNotice])
 
@@ -22,35 +22,6 @@ const CalendarForm: FC = () => {
       onSetEndDate(calendarEventStore.event.startDate.toString().slice(0, 11) + "23:59")
     }
   }, [calendarEventStore.event.startDate, calendarEventStore.event.fullDay])
-
-  const saveEvent = () => {
-    onSetShowCalendarForm(false);
-    if (calendarEventStore.isEditing) {
-      onUpdateEvent(calendarEventStore.event);
-      setIsEditing(false);
-      onSetNoticeMessage("Событие успешно отредактировано")
-      onSetShowNotice(true)
-    }
-    else {
-      const currentEvent: ICalendarEvent = {
-        id: Date.now(),
-        title: calendarEventStore.event.title,
-        startDate: calendarEventStore.event.startDate,
-        endDate: calendarEventStore.event.endDate,
-        fullDay: calendarEventStore.event.fullDay
-      }
-      onAddEvent(currentEvent);
-      onSetNoticeMessage("Событие успешно создано")
-      onSetShowNotice(true)
-    }
-    onSetEmptyEvent();
-  }
-  const handlerRemoveEvent = () => {
-    onSetNoticeMessage("Событие успешно удалено")
-    onSetShowNotice(true)
-    onRemoveEvent(calendarEventStore.event)
-    closeModal(onSetShowCalendarForm, onSetIsEditing, onSetEmptyEvent)
-  }
 
   return (
     <div className={styles['calendar-form']}>
@@ -88,7 +59,16 @@ const CalendarForm: FC = () => {
         Отменить
       </Button>
       <Button
-        onClick={saveEvent}
+        onClick={() => saveEvent({
+          calendarEventStore,
+          onUpdateEventServer,
+          onSetNoticeMessage,
+          onSetShowNotice,
+          onAddEventServer,
+          onSetShowCalendarForm,
+          onSetIsEditing,
+          onSetEmptyEvent,
+        })}
         disabled={
           !(!calendarEventStore.isReading && calendarEventStore.event.title
             && calendarEventStore.event.startDate
@@ -107,7 +87,15 @@ const CalendarForm: FC = () => {
       {
         calendarEventStore.isEditing && <Button
           disabled={calendarEventStore.isReading}
-          onClick={handlerRemoveEvent}
+          onClick={() => handlerRemoveEvent({
+            calendarEventStore,
+            onRemoveEventServer,
+            onSetNoticeMessage,
+            onSetShowNotice,
+            onSetShowCalendarForm,
+            onSetIsEditing,
+            onSetEmptyEvent
+          })}
         >
           Удалить
         </Button>

@@ -40,7 +40,7 @@ export function renderTile(
       <ul>
         {arrEvents.map(event => {
           if (event.id !== null) {
-            const idRGB = event.id;
+            const idRGB = +event.id;
             const red = 128 + (idRGB % 128);
             const green = 128 + ((idRGB + 42) % 128);
             const blue = 128 + ((idRGB + 84) % 128);

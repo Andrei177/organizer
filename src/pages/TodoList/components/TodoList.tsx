@@ -14,8 +14,8 @@ import { setEmptyEvent, setIsReading } from '../../../modules/CalendarForm/store
 
 const TodoList: FC = () => {
   const [todoList, onSetShowTodoForm] = useUnit([$todoListStore, setShowTodoForm])
-  const [onSetIsEditing, onSetEmptyTodo, ] = useUnit([setIsEditing, setEmptyTodo])
-  const [onSetShowCalendarForm, calendarStore, ] = useUnit([setShowCalendarForm, $calendarStore])
+  const [onSetIsEditing, onSetEmptyTodo] = useUnit([setIsEditing, setEmptyTodo])
+  const [onSetShowCalendarForm, calendarStore] = useUnit([setShowCalendarForm, $calendarStore])
   const [onSetIsReading, onSetEmptyEvent] = useUnit([setIsReading, setEmptyEvent])
 
   const createTodo = () => {

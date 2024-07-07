@@ -2,7 +2,7 @@ import { FC } from 'react'
 import Button from '../../../UI/Button'
 import styles from '../../../assets/styles/TodoForm.module.css'
 import { useUnit } from 'effector-react';
-import { $todoStore, setDescription, setEmptyTodo, setEmptyTodoEvent, setEvent, setIsEditing, setName, setStatus } from '../store/todoStore';
+import { $todoStore, setDescription, setEmptyTodo, setEventId, setIsEditing, setName, setStatus } from '../store/todoStore';
 import { addTodoServer, removeTodoServer, setShowTodoForm, updateTodoServer } from '../../../pages/TodoList/store/todoListStore';
 import { $calendarStore } from '../../../pages/Calendar/store/calendarStore';
 import { closeModal } from '../../../components/Modal/helpers/closeModal';
@@ -11,28 +11,19 @@ import { setNoticeMessage, setShowNotice } from '../../Notification/store/notice
 
 const TodoForm: FC = () => {
 
-  const [todoStore, onSetName, onSetEvent, onSetDescription, onSetStatus, onSetEmptyTodo, onSetIsEditing, onSetEmptyTodoEvent] = useUnit([
-    $todoStore, setName, setEvent, setDescription, setStatus, setEmptyTodo, setIsEditing, setEmptyTodoEvent
+  const [todoStore, onSetName, onSetEventId, onSetDescription, onSetStatus, onSetEmptyTodo, onSetIsEditing] = useUnit([
+    $todoStore, setName, setEventId, setDescription, setStatus, setEmptyTodo, setIsEditing
   ]);
-  const [calendarStore] = useUnit([$calendarStore]);
+  const calendarStore = useUnit($calendarStore);
 
-  const [
-    onSetShowTodoForm,
-    onAddTodoServer,
-    onUpdateTodoServer,
-    onRemoveTodoServer,
-  ] = useUnit([
-    setShowTodoForm,
-    addTodoServer,
-    updateTodoServer,
-    removeTodoServer,
+  const [onSetShowTodoForm, onAddTodoServer, onUpdateTodoServer, onRemoveTodoServer] = useUnit([
+    setShowTodoForm, addTodoServer, updateTodoServer, removeTodoServer
   ]);
 
   const [onSetNoticeMessage, onSetShowNotice] = useUnit([
-    setNoticeMessage,
-    setShowNotice,
+    setNoticeMessage, setShowNotice
   ]);
-  
+
   return (
     <div className={styles['todo-form']}>
       {
@@ -55,15 +46,15 @@ const TodoForm: FC = () => {
 
       <select
         className={styles['todo-form__inp']}
-        onChange={e => e.target.value === "" ? onSetEmptyTodoEvent() : onSetEvent(JSON.parse(e.target.value))}
-        defaultValue={"Выберите событие"}
+        onChange={e => onSetEventId(e.target.value)}
+        defaultValue={""}
       >
-        <option value={""} onClick={() => console.log("click")}>Без события</option>
+        <option value={""}>Без события</option>
         {
           calendarStore.events.map(event =>
             <option
               key={event.id}
-              value={JSON.stringify(event)}
+              value={String(event.id)}
             >
               {event.title.length > 20 ? event.title.slice(0, 20) + "..." : event.title}
             </option>
@@ -87,7 +78,10 @@ const TodoForm: FC = () => {
       >
         Сохранить
       </Button>
-      <input type="checkbox" checked={todoStore.todo.status} onChange={(e) => onSetStatus(e.target.checked)} /><span>Завершено</span>
+      <div style={{display: "flex", gap: 10}}>
+        <input type="checkbox" checked={todoStore.todo.status} onChange={(e) => onSetStatus(e.target.checked)} />
+        <h3>Завершено</h3>
+      </div>
       {
         todoStore.isEditing && <Button
           onClick={() => handlerRemoveTodo({

@@ -1,5 +1,5 @@
 export interface IUser{
-    avatar: File | null,
+    id: string,
     surname: string,
     name: string,
     patronymic: string,

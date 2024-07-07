@@ -1,21 +1,20 @@
 import { closeModal } from "../../../components/Modal/helpers/closeModal";
 import { ICalendarEvent } from "../../../models/ICalendarEvent";
-import { ITodo } from "../../../models/ITodo";
 import { ICalendarEventStore } from "../store/calendarEventStore";
 
 interface IArgSaveFn {
   calendarEventStore: ICalendarEventStore;
-  onUpdateEventServer: (event: ICalendarEvent) => Promise<ITodo>;
+  onUpdateEventServer: (event: ICalendarEvent) => Promise<ICalendarEvent>;
   onSetNoticeMessage: (msg: string) => void;
   onSetShowNotice: (bool: boolean) => void;
-  onAddEventServer: (event: ICalendarEvent) => Promise<ITodo>;
+  onAddEventServer: (event: ICalendarEvent) => Promise<ICalendarEvent>;
   onSetShowCalendarForm: (bool: boolean) => void;
   onSetIsEditing: (bool: boolean) => void;
   onSetEmptyEvent: () => void;
 }
 interface IArgRemoveFn {
   calendarEventStore: ICalendarEventStore;
-  onRemoveEventServer: (event: ICalendarEvent) => Promise<ITodo>;
+  onRemoveEventServer: (event: ICalendarEvent) => Promise<ICalendarEvent>;
   onSetNoticeMessage: (msg: string) => void;
   onSetShowNotice: (bool: boolean) => void;
   onSetShowCalendarForm: (bool: boolean) => void;

@@ -7,14 +7,16 @@ import { useUnit } from 'effector-react';
 import { fetchEvents } from './pages/Calendar/store/calendarStore';
 import { useEffect } from 'react';
 import { fetchTodos } from './pages/TodoList/store/todoListStore';
+import { fetchUserInfo } from './pages/Lk/store/userStore';
 
 function App() {
 
-  const [onFetchEvents, onFetchTodos] = useUnit([fetchEvents, fetchTodos]);
+  const [onFetchEvents, onFetchTodos, onFetchUserInfo] = useUnit([fetchEvents, fetchTodos, fetchUserInfo]);
 
   useEffect(() => {
     onFetchEvents();
     onFetchTodos();
+    onFetchUserInfo();
   }, [])
 
   return (

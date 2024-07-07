@@ -10,18 +10,8 @@ import styles from '../assets/styles/SideBar.module.css'
 const SideBar: FC = () => {
     const [showMenu, setShowMenu] = useState(false);
 
-    // const menuRef = useRef();
-
-    // const onSetOffsetLeft = useUnit(setOffsetLeft)
-
-    // useEffect(() => {
-    //     onSetOffsetLeft(+menuRef.current.clientWidth)
-    // }, [showMenu])
-
   return (
-    <div className={showMenu? styles['sidebar'] + " " + styles['show-menu'] : styles['sidebar'] + " " + styles['hide-menu']} onClick={() => setShowMenu(!showMenu)} 
-    //ref={menuRef}
-    >
+    <div className={showMenu? styles['sidebar'] + " " + styles['show-menu'] : styles['sidebar'] + " " + styles['hide-menu']} onClick={() => setShowMenu(!showMenu)}>
             <ul className={styles['sidebar-list']}>
                 <li className={styles['sidebar-list__item']}>
                     <Img img={home}/>

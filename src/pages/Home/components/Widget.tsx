@@ -2,7 +2,7 @@ import React, { FC, ReactNode, RefObject, useRef, useState } from 'react';
 import { ICoords } from '../types/ICoords';
 import { useNavigate } from 'react-router-dom';
 
-interface IWidget {
+interface IPropsWidget {
     position: ICoords,
     setPosition: (newPosition: ICoords) => void,
     clickRoute: string,
@@ -11,7 +11,7 @@ interface IWidget {
     containerRef: RefObject<HTMLDivElement>
 }
 
-const Widget: FC<IWidget> = ({ position, setPosition, clickRoute, title, children, containerRef }) => {
+const Widget: FC<IPropsWidget> = ({ position, setPosition, clickRoute, title, children, containerRef }) => {
     const widgetRef = useRef<HTMLDivElement>(null);
     const [dragging, setDragging] = useState(false);
     const [isDragging, setIsDragging] = useState(false);

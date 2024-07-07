@@ -1,6 +1,5 @@
 {
-  "todos": [
-  ],
-  "events": [
-  ]
+  "todos": [],
+  "events": [],
+  "user": []
 }

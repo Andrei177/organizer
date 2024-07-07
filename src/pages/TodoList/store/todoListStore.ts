@@ -1,25 +1,11 @@
 import { createEffect, createEvent, createStore } from "effector";
 import { ITodo } from "../../../models/ITodo";
 import { addTodoOnServer, getTodos, removeTodoOnServer, updateTodoOnServer } from "../api/api"
+import { addTodoFunc, removeTodoFunc, updateTodoFunc } from "../helpers/fnsForStore";
 
 interface TypeTodoListStore{
     todos: ITodo[],
     showTodoForm: boolean,
-}
-
-const addTodoFunc = (todos: ITodo[], newTodo: ITodo) => {
-    return [...todos, newTodo]
-}
-const removeTodoFunc = (todos: ITodo[], removeTodo: ITodo) => {
-    return todos.filter(todo => todo.id !== removeTodo.id)
-}
-const updateTodoFunc = (todos: ITodo[], updateTodo: ITodo) => {
-    return todos.map(todo => {
-        if(updateTodo.id === todo.id){
-            return updateTodo; 
-        }
-        return todo
-    })
 }
 
 export const addTodo = createEvent<ITodo>();
@@ -27,10 +13,10 @@ export const updateTodo = createEvent<ITodo>();
 export const removeTodo = createEvent<ITodo>();
 export const setShowTodoForm = createEvent<boolean>();
 
-export const addTodoServer = createEffect(addTodoOnServer)
-export const updateTodoServer = createEffect(updateTodoOnServer)
-export const removeTodoServer = createEffect(removeTodoOnServer)
-export const fetchTodos = createEffect(getTodos)
+export const addTodoServer = createEffect<ITodo, ITodo>(addTodoOnServer)
+export const updateTodoServer = createEffect<ITodo, ITodo>(updateTodoOnServer)
+export const removeTodoServer = createEffect<ITodo, ITodo>(removeTodoOnServer)
+export const fetchTodos = createEffect<void, ITodo[]>(getTodos)
 
 export const $todoListStore = createStore<TypeTodoListStore>({
     todos: [],

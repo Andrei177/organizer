@@ -19,7 +19,6 @@ export const onMouseMove = (e: React.MouseEvent<HTMLElement>, dragging: boolean,
     let newX = e.pageX - containerRect.left - rel.x;
     let newY = e.pageY - containerRect.top - rel.y;
 
-    // Ограничиваем перемещение виджета в пределах контейнера
     newX = Math.max(0, Math.min(newX, containerRect.width - widgetRect.width));
     newY = Math.max(0, Math.min(newY, containerRect.height - widgetRect.height));
 

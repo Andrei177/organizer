@@ -17,8 +17,6 @@ export const updateEventOnServer = async (event: ICalendarEvent) => {
 
 export const removeEventOnServer = async (event: ICalendarEvent) => {
     const {data} = await $host.delete(`/events/${event.id}`)
-    console.log(data, 'Удаление ивента');
-    
     return data
 }
 

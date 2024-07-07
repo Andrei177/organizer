@@ -1,9 +1,7 @@
-import { ICalendarEvent } from "./ICalendarEvent";
-
 export interface ITodo{
     id: string | number | null;
     name: string;
-    event: ICalendarEvent;
+    eventId: string | number;
     description: string;
     status: boolean;
 }

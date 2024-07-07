@@ -79,11 +79,15 @@ const CalendarForm: FC = () => {
       >
         Сохранить
       </Button>
-      <input
-        disabled={calendarEventStore.isReading}
-        type="checkbox"
-        checked={calendarEventStore.event.fullDay}
-        onChange={(e) => onSetFullDay(e.target.checked)} /><span>Целый день</span>
+      <div style={{ display: "flex", gap: 10 }}>
+        <input
+          disabled={calendarEventStore.isReading}
+          type="checkbox"
+          checked={calendarEventStore.event.fullDay}
+          onChange={(e) => onSetFullDay(e.target.checked)}
+        />
+        <h3>Целый день</h3>
+      </div>
       {
         calendarEventStore.isEditing && <Button
           disabled={calendarEventStore.isReading}

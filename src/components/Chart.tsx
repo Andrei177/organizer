@@ -8,7 +8,7 @@ import {
   Title,
   ChartOptions,
 } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import ChartDataLabels, { Context } from 'chartjs-plugin-datalabels';
 
 // Регистрация элементов, контроллеров и плагинов
 ChartJS.register(ArcElement, Tooltip, Legend, Title, ChartDataLabels);
@@ -47,12 +47,12 @@ const Chart: FC<IPropsChart> = ({completed, notCompleted}) => {
         borderWidth: 2,
         borderColor: 'white',
         borderRadius: 25,
-        backgroundColor: (context: any) => context.dataset.backgroundColor,
+        backgroundColor: (context: Context) => context.dataset.backgroundColor as string,
         font: {
           weight: 'bold',
           size: 17
         },
-        formatter: (value: any) => `${value}`
+        formatter: (value: number) => `${value}`
       }
     }
   };

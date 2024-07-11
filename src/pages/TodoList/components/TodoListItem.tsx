@@ -27,7 +27,7 @@ const TodoListItem: FC<IPropsTodoListItem> = ({todo, mini}) => {
 
   useEffect(() => {
     setCurrentEvent(calendarStore.events.find((e) => e.id === todo.eventId))
-  }, [todo.eventId])
+  }, [todo.eventId, calendarStore])
 
   const editTodo = () => {
     onSetTodo(todo);

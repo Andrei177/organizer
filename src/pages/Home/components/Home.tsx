@@ -10,6 +10,7 @@ import todoItemStyle from '../../../assets/styles/TodoListItem.module.css'
 import todoListStyle from '../../../assets/styles/TodoList.module.css'
 import TodoListItem from '../../TodoList/components/TodoListItem'
 import { $todoListStore } from '../../TodoList/store/todoListStore'
+import 'react-calendar/dist/Calendar.css';
 
 const Home: FC = () => {
 

@@ -1,8 +1,9 @@
-import React from "react";
-import Calendar from "../pages/Calendar/components/Calendar";
+import React, { lazy } from "react";
 import Home from "../pages/Home/components/Home";
-import Lk from "../pages/Lk/components/Lk";
-import TodoList from "../pages/TodoList/components/TodoList";
+
+const TodoList = lazy(() => import("../pages/TodoList/components/TodoList"));
+const Lk = lazy(() => import("../pages/Lk/components/Lk"));
+const Calendar = lazy(() => import("../pages/Calendar/components/Calendar"));
 
 interface IRoutes{
     path: string;
